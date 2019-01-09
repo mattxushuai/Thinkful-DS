@@ -1,0 +1,23 @@
+SELECT
+    zip, maxtemperaturef
+FROM
+    weather
+WHERE
+    maxtemperaturef = (SELECT MAX(maxtemperaturef) FROM weather)
+    
+    
+SELECT
+    start_station, COUNT(trip_id) as trip_count
+FROM trips
+GROUP by 1
+
+
+SELECT
+    MIN(duration) as shortest_trip
+FROM trips
+
+
+SELECT
+    end_station, AVG(duration) as average_duration
+FROM trips
+GROUP by end_station
