@@ -1,0 +1,34 @@
+1. What's the most expensive listing? What else can you tell me about the listing
+
+SELECT * FROM aus_listings
+ORDER by price DESC
+LIMIT 1
+
+The listing id is 24310244, called "Barton Hills House #2" in the area of zipcode 78704, with list price of $24999 for the entire home, it requires 2 minimum nights
+
+2. What neighborhoods seems to be the most popular?
+
+SELECT neighbourhood, count(comments) FROM aus_listings l
+JOIN aus_reviews r on r.listing_id = l.id
+GROUP by neighbourhood
+ORDER by count(comments) DESC
+LIMIT 5
+
+neighbourhoods of 78704, 78702, 78701, 78703 and 78741 are the top 5 that received most reviews.
+
+3. what time of year is the cheapest time to go to your city? what about the busiest
+
+SELECT AVG(l.price) as average_price, extract(month from calender_date) as month FROM aus_calender c
+JOIN aus_listings l on c.listing_id = l.id 
+WHERE c.available = 't'
+GROUP by month
+ORDER by average_price ASC
+
+The cheapest month is January and most expensive month is october
+
+SELECT extract(month from calender_date) as month, count(available) as availability_count FROM aus_calender c
+WHERE available = 't'
+GROUP by month
+ORDER by availability_count ASC
+
+The busiest month when there's the least amount of availability is September and october, the least busy month is January.
